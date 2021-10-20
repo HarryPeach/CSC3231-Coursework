@@ -4,6 +4,9 @@ namespace Assets.Player
 {
 	/**
 	 * Controls movement of the player
+	 *
+	 * Basic features used from https://www.youtube.com/watch?v=_QajrabyTJc
+	 * Advanced features (sprint, fov) added by me
 	 */
 	[RequireComponent(typeof(CharacterController))]
 	public class PlayerMoveController : MonoBehaviour
@@ -14,6 +17,9 @@ namespace Assets.Player
 		[SerializeField] private float gravity = 9.81f;
 		[SerializeField] private float jumpHeight = 3f;
 
+		[SerializeField] private Camera playerCamera;
+		[SerializeField] private float runFovModifier = 1.5f;
+
 		[SerializeField] private Transform groundCheck;
 		[SerializeField] private float groundDistance;
 		[SerializeField] private LayerMask groundMask;
@@ -21,10 +27,12 @@ namespace Assets.Player
 		private bool _isGrounded;
 		private Vector3 _velocity;
 		private float _originSpeed;
+		private float _originFov;
 
 		private void Start()
 		{
 			_originSpeed = speed;
+			_originFov = playerCamera.fieldOfView;
 		}
 
 		private void Update()
@@ -42,7 +50,7 @@ namespace Assets.Player
 
 			if (_isGrounded && _velocity.y < 0)
 			{
-				_velocity.y = -2f;
+				_velocity.y = -10f;
 			}
 		}
 
@@ -60,9 +68,18 @@ namespace Assets.Player
 			controller.Move(movementVec * (speed * Time.deltaTime));
 
 			if (Input.GetKey("left shift"))
+			{
 				speed = _originSpeed * 2f;
+				//Debug.Log($"fov: {playerCamera.fieldOfView} - os * rfm: {_originFov * runFovModifier}");
+				if (playerCamera.fieldOfView < _originFov * runFovModifier)
+					playerCamera.fieldOfView++;
+			}
 			else
+			{
 				speed = _originSpeed;
+				if (playerCamera.fieldOfView > _originFov)
+					playerCamera.fieldOfView--;
+			}
 
 			if (Input.GetButtonDown("Jump") && _isGrounded) _velocity.y = Mathf.Sqrt(jumpHeight * -2f * -gravity);
 

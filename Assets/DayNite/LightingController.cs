@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.Presets;
 using UnityEngine;
 
 namespace Assets.DayNite

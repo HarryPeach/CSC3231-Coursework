@@ -17,7 +17,7 @@ namespace Assets.DayNite
 
 			if (Application.isPlaying)
 			{
-				timeHours += Time.deltaTime;
+				timeHours += Time.deltaTime / 2;
 				timeHours %= 24;
 				UpdateLighting(timeHours / 24f);
 			}

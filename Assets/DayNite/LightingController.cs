@@ -9,6 +9,7 @@ namespace Assets.DayNite
 	{
 		[SerializeField] private Light directionalLight;
 		[SerializeField] private LightingPresets lightingPreset;
+		[SerializeField] private float timeStretch = 2f;
 		[SerializeField, Range(0, 24)] private float timeHours;
 
 		private void Update()
@@ -17,7 +18,7 @@ namespace Assets.DayNite
 
 			if (Application.isPlaying)
 			{
-				timeHours += Time.deltaTime / 2;
+				timeHours += Time.deltaTime / timeStretch;
 				timeHours %= 24;
 				UpdateLighting(timeHours / 24f);
 			}
@@ -41,17 +42,6 @@ namespace Assets.DayNite
 			if (directionalLight != null) return;
 			if (RenderSettings.sun != null)
 				directionalLight = RenderSettings.sun;
-			else
-			{
-				Debug.Log("Directional Light was not set, and sun was not found, finding the first directional light in scene.");
-				Light[] lights = GameObject.FindObjectsOfType<Light>();
-				foreach (Light foundLight in lights)
-				{
-					if (foundLight.type != LightType.Directional) continue;
-					directionalLight = foundLight;
-					return;
-				}
-			}
 		}
 	}
 }

@@ -70,7 +70,6 @@ namespace Assets.Player
 			if (Input.GetKey("left shift"))
 			{
 				speed = _originSpeed * 2f;
-				//Debug.Log($"fov: {playerCamera.fieldOfView} - os * rfm: {_originFov * runFovModifier}");
 				if (playerCamera.fieldOfView < _originFov * runFovModifier)
 					playerCamera.fieldOfView++;
 			}

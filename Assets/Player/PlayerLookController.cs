@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Player
@@ -30,6 +31,26 @@ namespace Assets.Player
 			_rotationY += mouseX;
 
 			transform.localRotation = Quaternion.Euler(_rotationX, _rotationY, 0f);
+
+			if (Input.GetMouseButtonDown(0))
+			{
+				if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
+				{
+					if (hit.collider.CompareTag("Terrain"))
+					{
+						hit.collider.gameObject.GetComponent<TerrainDeformation>()
+							.ExplodeTerrain(hit.point, 3f, 4f);
+					}
+				}
+			}
+		}
+
+		private void FixedUpdate()
+		{
+			if (!Physics.Raycast(transform.position, transform.forward, out RaycastHit hit)) return;
+			if (!hit.collider.CompareTag("Terrain")) return;
+			Vector3 position = transform.position;
+			Debug.DrawLine(position, hit.point, Color.red);
 		}
 	}
 }

@@ -1,9 +1,21 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Performs basic terrain deformation, such as explosions
+/// </summary>
+/// <remarks>Modified from: http://blog.almostlogical.com/2010/06/10/real-time-terrain-deformation-in-unity3d/</remarks>
 [RequireComponent(typeof(Terrain))]
 public class TerrainDeformation : MonoBehaviour
 {
+	[SerializeField] private bool deformAlphas = true;
+	[SerializeField] private bool deformTerrain = true;
+	
+	[SerializeField]
+	[Tooltip("The index of the texture to paint on an explosion")]
+	[Range(0, 10)]
+	private int terrainDeformationTextureNum = 1;
+
 	private Terrain _terrain;
 	private int _heightmapResolution;
 	private int _alphamapResolution;
@@ -33,10 +45,16 @@ public class TerrainDeformation : MonoBehaviour
 		_terrain.terrainData.SetAlphamaps(0, 0, _alphamapBackup);
 	}
 
+	/// <summary>
+	/// Explode the terrain at a given point
+	/// </summary>
+	/// <param name="pos">The position to explode at</param>
+	/// <param name="blastSize">The size of the blast (crater)</param>
+	/// <param name="textureSize">The size of the texture to paint</param>
 	public void ExplodeTerrain(Vector3 pos, float blastSize, float textureSize)
 	{
-		Debug.Log($"Exploding at: {pos}");
-		DeformTerrain(pos, blastSize);
+		if (deformTerrain) DeformTerrain(pos, blastSize);
+		if (deformAlphas) DeformAlphas(pos, blastSize * textureSize);
 	}
 
 	/// <summary>
@@ -59,7 +77,7 @@ public class TerrainDeformation : MonoBehaviour
 
 		float[,] heights = _terrain.terrainData.GetHeights(heightmapStartPosX, heightmapStartPosZ,
 			heightmapBlastWidth, heightmapBlastLength);
-		float deformationDepth = (blastSize / 3.0f) / terrainData.size.y;
+		float deformationDepth = blastSize / 3.0f / terrainData.size.y;
 
 		for (int i = 0; i < heightmapBlastLength; i++)
 		{
@@ -85,6 +103,50 @@ public class TerrainDeformation : MonoBehaviour
 		}
 
 		_terrain.terrainData.SetHeights(heightmapStartPosX, heightmapStartPosZ, heights);
+	}
+
+	private void DeformAlphas(Vector3 pos, float blastSize)
+	{
+		TerrainData terrainData = _terrain.terrainData;
+		Vector3 alphaMapTerrainPos = GetRelativeTerrainPositionFromPos(pos, _alphamapResolution);
+		int alphaMapCraterWidth = (int)(blastSize * (_alphamapResolution / terrainData.size.x));
+		int alphaMapCraterLength = (int)(blastSize * (_alphamapResolution / terrainData.size.z));
+
+		int alphaMapStartPosX = (int)(alphaMapTerrainPos.x - alphaMapCraterWidth / 2.0);
+		int alphaMapStartPosZ = (int)(alphaMapTerrainPos.z - alphaMapCraterLength / 2.0);
+
+		float[,,] alphas = _terrain.terrainData.GetAlphamaps(alphaMapStartPosX, alphaMapStartPosZ,
+			alphaMapCraterWidth, alphaMapCraterLength);
+
+		for (int i = 0; i < alphaMapCraterLength; i++) //width
+		{
+			for (int j = 0; j < alphaMapCraterWidth; j++) //height
+			{
+				float circlePosX = (j - alphaMapCraterWidth / 2) /
+				                   (_alphamapResolution / terrainData.size.x);
+				float circlePosY = (i - alphaMapCraterLength / 2) /
+				                   (_alphamapResolution / terrainData.size.z);
+
+				//convert back to values without skew
+				float distanceFromCenter = Mathf.Abs(Mathf.Sqrt(circlePosX * circlePosX + circlePosY * circlePosY));
+				
+				if (!(distanceFromCenter < blastSize / 2.0f)) continue;
+				for (int layerCount = 0; layerCount < _alphaLayersCount; layerCount++)
+				{
+					//could add blending here in the future
+					if (layerCount == terrainDeformationTextureNum)
+					{
+						alphas[i, j, layerCount] = 1;
+					}
+					else
+					{
+						alphas[i, j, layerCount] = 0;
+					}
+				}
+			}
+		}
+
+		_terrain.terrainData.SetAlphamaps(alphaMapStartPosX, alphaMapStartPosZ, alphas);
 	}
 
 	/// <summary>

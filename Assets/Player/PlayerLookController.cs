@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace Assets.Player
+namespace Player
 {
 	/**
 	 * Controls the players mouse look
@@ -44,7 +43,7 @@ namespace Assets.Player
 			if (!hit.collider.CompareTag("Terrain")) return;
 			
 			hit.collider.gameObject.GetComponent<TerrainDeformation>()
-				.ExplodeTerrain(hit.point, 10f, 4f);
+				.ExplodeTerrain(hit.point, 10f, 1.5f);
 		}
 
 		private void FixedUpdate()

@@ -1,4 +1,5 @@
 ﻿using System;
+using Terrain;
 using UnityEngine;
 
 namespace Player
@@ -8,6 +9,8 @@ namespace Player
 	/// </summary>
 	public class PlayerMiscController : MonoBehaviour
 	{
+		[Header("Volcano")] [SerializeField] private ParticleSystem volcanoParticleSystem;
+		
 		[Header("Terrain Deformation")] [SerializeField]
 		private GameObject explosionPrefab;
 
@@ -32,9 +35,14 @@ namespace Player
 				debugDraw = !debugDraw;
 			}
 
-			if (Input.GetKeyUp("right shift"))
+			if (Input.GetKeyUp("1"))
 			{
 				TryExplode();
+			}
+
+			if (Input.GetKeyUp("2"))
+			{
+				TryEruptVolanco();
 			}
 		}
 
@@ -53,8 +61,17 @@ namespace Player
 			if (!debugDraw) return;
 			GUI.skin.label.fontSize = DebugFontSize;
 			GUI.Label(
-				new Rect(DebugFontSize, Screen.height - (DebugFontSize * 2), Screen.width, 100),
+				new Rect(DebugFontSize, Screen.height - DebugFontSize * 5, Screen.width, 100),
+				"Press 1 for explosion");
+			GUI.Label(
+				new Rect(DebugFontSize, Screen.height - DebugFontSize * 4, Screen.width, 100),
+				"Press 2 for eruption");
+			GUI.Label(
+				new Rect(DebugFontSize, Screen.height - DebugFontSize * 3, Screen.width, 100),
 				$"Ray distance: {_hit.distance}");
+			GUI.Label(
+				new Rect(DebugFontSize, Screen.height - DebugFontSize * 2, Screen.width, 100),
+				$"Ray point: {_hit.point}");
 		}
 
 		#endregion
@@ -75,6 +92,16 @@ namespace Player
 			// Perform terrain deformation
 			hit.collider.gameObject.GetComponent<TerrainDeformation>()
 				.ExplodeTerrain(hit.point, blastSize, scorchFactor);
+		}
+
+		/// <summary>
+		/// Sets off an eruption at the volcano in the scene
+		/// </summary>
+		private void TryEruptVolanco()
+		{
+			volcanoParticleSystem.Stop();
+			volcanoParticleSystem.Clear();
+			volcanoParticleSystem.Play();
 		}
 	}
 }

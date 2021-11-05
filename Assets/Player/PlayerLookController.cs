@@ -32,17 +32,19 @@ namespace Assets.Player
 
 			transform.localRotation = Quaternion.Euler(_rotationX, _rotationY, 0f);
 
-			if (Input.GetMouseButtonDown(0))
-			{
-				if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
-				{
-					if (hit.collider.CompareTag("Terrain"))
-					{
-						hit.collider.gameObject.GetComponent<TerrainDeformation>()
-							.ExplodeTerrain(hit.point, 3f, 4f);
-					}
-				}
-			}
+			if (Input.GetMouseButtonDown(0)) TryExplode();
+		}
+
+		/// <summary>
+		/// Try and explode where the player is looking
+		/// </summary>
+		private void TryExplode()
+		{
+			if (!Physics.Raycast(transform.position, transform.forward, out RaycastHit hit)) return;
+			if (!hit.collider.CompareTag("Terrain")) return;
+			
+			hit.collider.gameObject.GetComponent<TerrainDeformation>()
+				.ExplodeTerrain(hit.point, 10f, 4f);
 		}
 
 		private void FixedUpdate()

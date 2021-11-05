@@ -8,8 +8,12 @@ namespace Player
 	/// </summary>
 	public class PlayerMiscController : MonoBehaviour
 	{
-		[Header("Terrain Deformation")]
-		
+		[Header("Terrain Deformation")] [SerializeField]
+		private GameObject explosionPrefab;
+
+		[SerializeField] private float blastSize = 20f;
+		[SerializeField] private float scorchFactor = 1.5f;
+
 		[Header("Debug")]
 		[SerializeField]
 		[Tooltip("Whether to draw debug information to the screen")]
@@ -27,12 +31,13 @@ namespace Player
 			{
 				debugDraw = !debugDraw;
 			}
+
 			if (Input.GetKeyUp("right shift"))
 			{
 				TryExplode();
 			}
 		}
-		
+
 		private void FixedUpdate()
 		{
 			if (!debugDraw) return;
@@ -47,11 +52,13 @@ namespace Player
 		{
 			if (!debugDraw) return;
 			GUI.skin.label.fontSize = DebugFontSize;
-			GUI.Label(new Rect(DebugFontSize, Screen.height - (DebugFontSize * 2), Screen.width, 100), $"Ray distance: {_hit.distance}");
+			GUI.Label(
+				new Rect(DebugFontSize, Screen.height - (DebugFontSize * 2), Screen.width, 100),
+				$"Ray distance: {_hit.distance}");
 		}
 
 		#endregion
-		
+
 		/// <summary>
 		/// Try and explode where the player is looking
 		/// </summary>
@@ -60,9 +67,14 @@ namespace Player
 			if (!Physics.Raycast(transform.position, transform.forward, out RaycastHit hit)) return;
 			// ReSharper disable once Unity.UnknownTag
 			if (!hit.collider.CompareTag("Terrain")) return;
-			
+
+			// Spawn an explosion effect
+			explosionPrefab.transform.localScale = new Vector3(blastSize / 5f, blastSize / 5f, blastSize / 5f);
+			Instantiate(explosionPrefab, hit.point, Quaternion.identity);
+
+			// Perform terrain deformation
 			hit.collider.gameObject.GetComponent<TerrainDeformation>()
-				.ExplodeTerrain(hit.point, 20f, 1.5f);
+				.ExplodeTerrain(hit.point, blastSize, scorchFactor);
 		}
 	}
 }

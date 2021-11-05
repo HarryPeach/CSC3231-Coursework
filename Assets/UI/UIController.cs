@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
 {
 	[SerializeField] private Text fpsTextElement;
 	[SerializeField] private Text memTextElement;
-	[SerializeField] private ProfilerRecorder systemUsedMemoryProfilerRecorder;
+	private ProfilerRecorder _systemUsedMemoryProfilerRecorder;
 
 	[SerializeField] private float fpsMeasurePeriod = 0.5f;
 	private float _fpsNextPeriod;
@@ -28,12 +28,12 @@ public class UIController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		systemUsedMemoryProfilerRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Total Used Memory");
+		_systemUsedMemoryProfilerRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Total Used Memory");
 	}
 
 	private void OnDisable()
 	{
-		systemUsedMemoryProfilerRecorder.Dispose();
+		_systemUsedMemoryProfilerRecorder.Dispose();
 	}
 
 	/// <summary>
@@ -55,6 +55,6 @@ public class UIController : MonoBehaviour
 	/// </summary>
 	private void GetMem()
 	{
-		memTextElement.text = $"Total Memory Usage: {systemUsedMemoryProfilerRecorder.LastValue / (1024 * 1024)}MB";
+		memTextElement.text = $"Total Memory Usage: {_systemUsedMemoryProfilerRecorder.LastValue / (1024 * 1024)}MB";
 	}
 }

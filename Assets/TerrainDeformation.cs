@@ -50,11 +50,11 @@ public class TerrainDeformation : MonoBehaviour
 	/// </summary>
 	/// <param name="pos">The position to explode at</param>
 	/// <param name="blastSize">The size of the blast (crater)</param>
-	/// <param name="textureSize">The size of the texture to paint</param>
-	public void ExplodeTerrain(Vector3 pos, float blastSize, float textureSize)
+	/// <param name="textureSizeFactor">How large the blast texture should be in comparison to the blast</param>
+	public void ExplodeTerrain(Vector3 pos, float blastSize, float textureSizeFactor)
 	{
 		if (deformTerrain) DeformTerrain(pos, blastSize);
-		if (deformAlphas) DeformAlphas(pos, blastSize * textureSize);
+		if (deformAlphas) DeformAlphas(pos, blastSize * textureSizeFactor);
 	}
 
 	/// <summary>

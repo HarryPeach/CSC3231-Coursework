@@ -65,6 +65,9 @@ namespace Terrain
 			// Find all collisions and detonate them
 			for (int i = 0; i < numCollisionEvents; i++)
 			{
+				// Don't detonate if the debris is underwater
+				if (_collisionEvents[i].intersection.y < 80) return;
+				
 				explosionPrefab.transform.localScale = new Vector3(debrisBlastSize / 5f, debrisBlastSize / 5f, debrisBlastSize / 5f);
 				Instantiate(explosionPrefab, _collisionEvents[i].intersection, Quaternion.identity);
 				ExplodeTerrain(_collisionEvents[i].intersection, debrisBlastSize, 1f);

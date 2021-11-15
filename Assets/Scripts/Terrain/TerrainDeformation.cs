@@ -74,6 +74,7 @@ namespace Terrain
 			for (int i = 0; i < numCollisionEvents; i++)
 			{
 				// Don't detonate if the debris is underwater
+				// TODO: Possibly create a splash at the point where the debris enters the water
 				if (_collisionEvents[i].intersection.y < waterHeight) return;
 				
 				explosionPrefab.transform.localScale = new Vector3(debrisBlastSize / 5f, debrisBlastSize / 5f, debrisBlastSize / 5f);

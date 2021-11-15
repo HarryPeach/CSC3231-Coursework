@@ -11,24 +11,28 @@ namespace Terrain
 	[RequireComponent(typeof(UnityEngine.Terrain))]
 	public class TerrainDeformation : MonoBehaviour
 	{
+		[Header("Particle System")]
+		[SerializeField] [Tooltip("The particle system that creates the debris")] 
+		private new ParticleSystem particleSystem;
+
+		[Header("Explosion")]
+		[SerializeField] [Tooltip("The prefab to create at the site of every explosion")] 
+		private GameObject explosionPrefab;
+		[SerializeField] [Tooltip("How large the explosion of the debris should be")]
+		private float debrisBlastSize = 10f;
 		[SerializeField] [Tooltip("Whether to change the alphas on an explosion")]
 		private bool deformAlphas = true;
 		[SerializeField] [Tooltip("Whether to change the terrain on an explosion")] 
 		private bool deformTerrain = true;
-
 		[SerializeField] [Tooltip("The index of the texture to paint on an explosion")] [Range(0, 10)]
 		private int terrainDeformationTextureNum = 1;
 
-		[SerializeField] [Tooltip("The particle system that creates the debris")] 
-		private new ParticleSystem particleSystem;
-
-		[SerializeField] [Tooltip("The prefab to create at the site of every explosion")] 
-		private GameObject explosionPrefab;
-
-		[SerializeField] [Tooltip("How large the explosion of the debris should be")]
-		private float debrisBlastSize = 10f;
-		
-		[SerializeField] [Tooltip("The y-height of water, for optimization purposes")] 
+		[Header("Splash")]
+		[SerializeField] [Tooltip("The prefab to create at the site of debris hitting water")]
+		private GameObject splashPrefab;
+		[SerializeField] [Tooltip("How large the splash of debris should be")]
+		private float splashSize = 10f;
+		[SerializeField] [Tooltip("The y-height of water, for optimization and splash purposes")] 
 		private int waterHeight = 80;
 
 		private UnityEngine.Terrain _terrain;
@@ -74,8 +78,14 @@ namespace Terrain
 			for (int i = 0; i < numCollisionEvents; i++)
 			{
 				// Don't detonate if the debris is underwater
-				// TODO: Possibly create a splash at the point where the debris enters the water
-				if (_collisionEvents[i].intersection.y < waterHeight) return;
+				// BUG: This spawns the splash at the site of the landing (underwater) instead of where the debris hits the water
+				if (_collisionEvents[i].intersection.y < waterHeight)
+				{
+					Vector3 colLoc = _collisionEvents[i].intersection;
+					splashPrefab.transform.localScale = new Vector3(splashSize / 5f, splashSize / 5f, splashSize / 5f);
+					Instantiate(splashPrefab, new Vector3(colLoc.x, waterHeight, colLoc.z), Quaternion.identity);
+					return;
+				}
 				
 				explosionPrefab.transform.localScale = new Vector3(debrisBlastSize / 5f, debrisBlastSize / 5f, debrisBlastSize / 5f);
 				Instantiate(explosionPrefab, _collisionEvents[i].intersection, Quaternion.identity);

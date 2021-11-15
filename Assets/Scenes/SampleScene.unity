@@ -1466,12 +1466,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ac6283d10c2304ab279c44a85b7c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deformAlphas: 1
-  deformTerrain: 1
-  terrainDeformationTextureNum: 1
   particleSystem: {fileID: 521705033}
   explosionPrefab: {fileID: 1159615438314744, guid: 77f6c4ee8fa082c4dabfcc617acd144d, type: 3}
   debrisBlastSize: 10
+  deformAlphas: 1
+  deformTerrain: 1
+  terrainDeformationTextureNum: 1
+  splashPrefab: {fileID: 1875262113099396, guid: 8c4a5c9cd5674ad4b85d2d5c3b6a958f, type: 3}
+  splashSize: 10
   waterHeight: 80
 --- !u!1 &375138629 stripped
 GameObject:

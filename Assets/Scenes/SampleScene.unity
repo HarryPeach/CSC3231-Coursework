@@ -1468,10 +1468,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 521705033}
   explosionPrefab: {fileID: 1159615438314744, guid: 77f6c4ee8fa082c4dabfcc617acd144d, type: 3}
-  debrisBlastSize: 10
+  debrisBlastSize: 14
   deformAlphas: 1
   deformTerrain: 1
-  terrainDeformationTextureNum: 1
+  terrainDeformationTextureNum: 3
   splashPrefab: {fileID: 1875262113099396, guid: 8c4a5c9cd5674ad4b85d2d5c3b6a958f, type: 3}
   splashSize: 10
   waterHeight: 80

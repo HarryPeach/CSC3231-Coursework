@@ -141,7 +141,7 @@ namespace Terrain
 						Mathf.Abs(Mathf.Sqrt(circlePosX * circlePosX + circlePosY * circlePosY));
 					float depthMult = (blastSize / 2.0f - distanceFromCentre) / (blastSize / 2.0f);
 
-					//convert back to values without skew
+					// Convert back to values without skew
 					if (!(distanceFromCentre < blastSize / 2.0f)) continue;
 
 					depthMult += 0.1f;

@@ -41,7 +41,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha_Level: 0.727
+    - _Alpha_Level: 0.686
     - _Depth: 0.4
     - _Displacement: 2
     - _Normal_Strength: 0.153

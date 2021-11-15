@@ -11,17 +11,25 @@ namespace Terrain
 	[RequireComponent(typeof(UnityEngine.Terrain))]
 	public class TerrainDeformation : MonoBehaviour
 	{
-		[SerializeField] private bool deformAlphas = true;
-		[SerializeField] private bool deformTerrain = true;
+		[SerializeField] [Tooltip("Whether to change the alphas on an explosion")]
+		private bool deformAlphas = true;
+		[SerializeField] [Tooltip("Whether to change the terrain on an explosion")] 
+		private bool deformTerrain = true;
 
 		[SerializeField] [Tooltip("The index of the texture to paint on an explosion")] [Range(0, 10)]
 		private int terrainDeformationTextureNum = 1;
 
-		[SerializeField] private new ParticleSystem particleSystem;
+		[SerializeField] [Tooltip("The particle system that creates the debris")] 
+		private new ParticleSystem particleSystem;
 
-		[SerializeField] private GameObject explosionPrefab;
+		[SerializeField] [Tooltip("The prefab to create at the site of every explosion")] 
+		private GameObject explosionPrefab;
 
-		[SerializeField] private float debrisBlastSize = 10f;
+		[SerializeField] [Tooltip("How large the explosion of the debris should be")]
+		private float debrisBlastSize = 10f;
+		
+		[SerializeField] [Tooltip("The y-height of water, for optimization purposes")] 
+		private int waterHeight = 80;
 
 		private UnityEngine.Terrain _terrain;
 		private int _heightmapResolution;
@@ -66,7 +74,7 @@ namespace Terrain
 			for (int i = 0; i < numCollisionEvents; i++)
 			{
 				// Don't detonate if the debris is underwater
-				if (_collisionEvents[i].intersection.y < 80) return;
+				if (_collisionEvents[i].intersection.y < waterHeight) return;
 				
 				explosionPrefab.transform.localScale = new Vector3(debrisBlastSize / 5f, debrisBlastSize / 5f, debrisBlastSize / 5f);
 				Instantiate(explosionPrefab, _collisionEvents[i].intersection, Quaternion.identity);

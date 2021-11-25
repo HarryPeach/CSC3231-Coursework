@@ -13,6 +13,7 @@ namespace SpaceJet
         private void FixedUpdate()
         {
             transform.RotateAround(pivot, axis, 20.0f * Time.deltaTime);
+            transform.Rotate(0, 0, 1, Space.Self);
             // transform.position = rot * (transform.position - pivot) + pivot;
             // transform.rotation = rot * transform.rotation;
         }

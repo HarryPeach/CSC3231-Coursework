@@ -1689,6 +1689,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 1159615438314744, guid: 77f6c4ee8fa082c4dabfcc617acd144d, type: 3}
   blastSize: 20
   scorchFactor: 1.2
+  rainParticleSystem: {fileID: 654863303}
   debugDraw: 0
 --- !u!1 &364349514
 GameObject:
@@ -7071,15 +7072,15 @@ ParticleSystem:
   m_GameObject: {fileID: 654863300}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
-  playOnAwake: 1
+  prewarm: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -7145,7 +7146,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -7896,7 +7897,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 300
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10650,7 +10651,8 @@ ParticleSystem:
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    m_Planes: []
+    m_Planes:
+    - {fileID: 364349517}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -10838,7 +10840,7 @@ ParticleSystem:
     subEmitters:
     - serializedVersion: 3
       emitter: {fileID: 0}
-      type: 0
+      type: 1
       properties: 0
       emitProbability: 1
   LightsModule:

@@ -17,6 +17,8 @@ namespace Player
 		[SerializeField] private float blastSize = 20f;
 		[SerializeField] private float scorchFactor = 1.5f;
 
+		[Header("Weather")] [SerializeField] private ParticleSystem rainParticleSystem;
+
 		[Header("Debug")]
 		[SerializeField]
 		[Tooltip("Whether to draw debug information to the screen")]
@@ -44,6 +46,11 @@ namespace Player
 			{
 				TryEruptVolanco();
 			}
+			
+			if (Input.GetKeyUp("3"))
+			{
+				ToggleRain();
+			}
 		}
 
 		private void FixedUpdate()
@@ -68,13 +75,27 @@ namespace Player
 				"Press 2 for eruption");
 			GUI.Label(
 				new Rect(DebugFontSize, Screen.height - DebugFontSize * 3, Screen.width, 100),
-				$"Ray distance: {_hit.distance}");
+				"Press 3 to toggle rain");
 			GUI.Label(
 				new Rect(DebugFontSize, Screen.height - DebugFontSize * 2, Screen.width, 100),
+				$"Ray distance: {_hit.distance}");
+			GUI.Label(
+				new Rect(DebugFontSize, Screen.height - DebugFontSize * 1, Screen.width, 100),
 				$"Ray point: {_hit.point}");
 		}
 
 		#endregion
+
+		/// <summary>
+		///  Toggles rain particle effect
+		/// </summary>
+		private void ToggleRain()
+		{
+			if (rainParticleSystem.isPlaying)
+				rainParticleSystem.Stop();
+			else
+				rainParticleSystem.Play();
+		}
 
 		/// <summary>
 		/// Try and explode where the player is looking

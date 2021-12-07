@@ -14298,7 +14298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 247766e192f437c4680b63372b7cb017, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 247766e192f437c4680b63372b7cb017, type: 3}
       propertyPath: m_LocalScale.x
@@ -14387,6 +14387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0fe8f3e4239944fb2cb36d8bd6c6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabled: 1
   directionalLight: {fileID: 1550383163}
   lightingPreset: {fileID: 11400000, guid: 36b20fd940579344eba0e596c00f89c9, type: 2}
   timeStretch: 5
@@ -14404,7 +14405,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2033419049
 PrefabInstance:
@@ -14531,7 +14532,7 @@ Transform:
   m_Children:
   - {fileID: 294104610}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1692708474900970555
 MeshRenderer:
@@ -14693,6 +14694,7 @@ GameObject:
   - component: {fileID: 2762975150426085551}
   - component: {fileID: 1692708474900970555}
   - component: {fileID: 8086511513371472607}
+  - component: {fileID: 8086511513371472608}
   m_Layer: 0
   m_Name: RingX
   m_TagString: Untagged
@@ -14715,3 +14717,17 @@ MonoBehaviour:
   rotateXSpeed: 1
   rotateYSpeed: 0
   rotateZSpeed: 0
+--- !u!114 &8086511513371472608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086511513371472606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a8441baf6de524b8c07865930382eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseHeight: 103
+  bobbiness: 1

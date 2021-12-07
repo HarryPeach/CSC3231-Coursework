@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.DayNite
@@ -5,6 +6,7 @@ namespace Assets.DayNite
 	[ExecuteAlways]
 	public class LightingController : MonoBehaviour
 	{
+		[SerializeField] private new bool enabled;
 		[SerializeField] private Light directionalLight;
 		[SerializeField] private LightingPresets lightingPreset;
 		[SerializeField] private float timeStretch = 2f;
@@ -12,6 +14,7 @@ namespace Assets.DayNite
 
 		private void Update()
 		{
+			if (!enabled) return;
 			if (lightingPreset == null) return;
 
 			if (Application.isPlaying)

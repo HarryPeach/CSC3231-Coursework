@@ -41,14 +41,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha_Level: 0.686
+    - _Alpha_Level: 0.796
     - _Depth: 0.4
-    - _Displacement: 2
-    - _Normal_Strength: 0.153
+    - _Displacement: 5
+    - _Normal_Strength: 0.451
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.757
-    - _Strength: 0.26
+    - _Smoothness: 0.977
+    - _Strength: 0.6
     m_Colors:
     - _Deep_Water_Colour: {r: 0.38959593, g: 0.61574525, b: 0.9716981, a: 0.5176471}
     - _Shallow_Water_Colour: {r: 1, g: 1, b: 1, a: 0.62352943}

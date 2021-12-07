@@ -16,9 +16,9 @@ namespace Gyroscope
         private void Update()
         {
             // Use a sine wave to make the rings bob smoothly
-            Transform objTransform = transform;
-            objTransform.position = new Vector3(objTransform.position.x,
-                (float)(baseHeight + bobbiness * Math.Sin(Time.time)), (objTransform).position.z);
+            Vector3 objPosition = transform.position;
+            transform.position = new Vector3(objPosition.x,
+                (float)(baseHeight + bobbiness * Math.Sin(Time.time)), objPosition.z);
         }
     }
 }

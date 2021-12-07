@@ -1,7 +1,7 @@
-using System;
+using Assets.DayNite;
 using UnityEngine;
 
-namespace Assets.DayNite
+namespace DayNite
 {
 	[ExecuteAlways]
 	public class LightingController : MonoBehaviour
@@ -35,7 +35,7 @@ namespace Assets.DayNite
 			RenderSettings.fogColor = lightingPreset.AmbientColor.Evaluate(timePercent);
 
 			directionalLight.color = lightingPreset.DirectionalColor.Evaluate(timePercent);
-			directionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170, 0));
+			directionalLight.transform.localRotation = Quaternion.Euler(new Vector3(timePercent * 360f - 90f, 170, 0));
 		}
 
 		private void OnValidate()
